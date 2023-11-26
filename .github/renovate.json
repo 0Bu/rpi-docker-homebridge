@@ -8,4 +8,7 @@
   "automerge": true,
   "bumpVersion": "patch",
   "ignoreTests": true
+  "repositories": [
+    "0Bu/rpi-docker-homebridge"
+  ]
 }
