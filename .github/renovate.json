@@ -1,13 +1,18 @@
 {
-  "extends": ["config:recommended"],
+  "extends": [
+    "config:recommended"
+  ],
   "platform": "github",
   "configMigration": true,
   "automerge": false,
   "bumpVersion": "patch",
   "ignoreTests": true,
-  "repositories": ["0Bu/rpi-docker-homebridge"],
-  "regexManagers": [
+  "repositories": [
+    "0Bu/rpi-docker-homebridge"
+  ],
+  "customManagers": [
     {
+      "customType": "regex",
       "fileMatch": [
         "(^|/)Dockerfile$"
       ],
@@ -15,5 +20,5 @@
         "#\\s*renovate:\\s*datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sENV .*?_VERSION=\"?(?<currentValue>.*?)\"?\\s"
       ]
     }
-  ]  
+  ]
 }
