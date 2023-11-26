@@ -1,6 +1,5 @@
 {
   "extends": ["config:recommended"],
-  "enabledManagers": ["dockerfile","github-actions","regex"],
   "platform": "github",
   "configMigration": true,
   "automerge": false,
