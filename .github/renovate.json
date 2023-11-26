@@ -5,10 +5,8 @@
   ],
   "platform": "github",
   "configMigration": true,
-  "automerge": true,
+  "automerge": false,
   "bumpVersion": "patch",
   "ignoreTests": true,
-  "repositories": [
-    "0Bu/rpi-docker-homebridge"
-  ]
+  "repositories": ["0Bu/rpi-docker-homebridge"]
 }
