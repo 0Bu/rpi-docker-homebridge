@@ -1,7 +1,7 @@
 FROM ubuntu:22.04
 
 # renovate: datasource=github-releases depName=homebridge/homebridge-apt-pkg
-ENV HOMEBRIDGE_PKG_VERSION=1.1.2
+ENV HOMEBRIDGE_PKG_VERSION="1.1.2"
 ENV UIX_CAN_SHUTDOWN_RESTART_HOST=1
 
 RUN apt-get update && apt-get install -y curl gpg \

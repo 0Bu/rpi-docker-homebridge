@@ -5,5 +5,15 @@
   "automerge": false,
   "bumpVersion": "patch",
   "ignoreTests": true,
-  "repositories": ["0Bu/rpi-docker-homebridge"]
+  "repositories": ["0Bu/rpi-docker-homebridge"],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "(^|/)Dockerfile$"
+      ],
+      "matchStrings": [
+        "#\\s*renovate:\\s*datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sENV .*?_VERSION=\"?(?<currentValue>.*?)\"?\\s"
+      ]
+    }
+  ]  
 }
