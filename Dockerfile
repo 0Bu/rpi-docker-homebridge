@@ -1,6 +1,8 @@
 FROM ubuntu:22.04
 
-LABEL org.opencontainers.image.source=https://github.com/0Bu/rpi-docker-homebridge
+LABEL org.opencontainers.image.source="https://github.com/0Bu/rpi-docker-homebridge"
+LABEL org.opencontainers.image.description="homebridge.io docker image for raspberry pi"
+LABEL org.opencontainers.image.licenses="MIT"
 
 # renovate: datasource=github-releases depName=homebridge/homebridge-apt-pkg
 ENV HOMEBRIDGE_PKG_VERSION="1.1.4"
