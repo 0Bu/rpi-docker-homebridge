@@ -20,5 +20,6 @@ EXPOSE 8581/tcp
 VOLUME /var/lib/homebridge
 VOLUME /opt/homebridge
 WORKDIR /var/lib/homebridge
-CMD /opt/homebridge/start.sh --allow-root
+ENTRYPOINT ["/opt/homebridge/start.sh"]
+CMD ["--allow-root"]
 
