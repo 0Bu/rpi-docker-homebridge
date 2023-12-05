@@ -8,8 +8,6 @@ LABEL org.opencontainers.image.licenses="MIT"
 ARG HOMEBRIDGE_APT_PKG_VERSION="1.1.4"
 ENV UIX_CAN_SHUTDOWN_RESTART_HOST=1
 
-RUN echo $HOMEBRIDGE_APT_PKG_VERSION
-
 RUN apt-get update && apt-get install -y curl gpg \
     && curl -sSfL https://repo.homebridge.io/KEY.gpg | gpg --dearmor > /usr/share/keyrings/homebridge.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/homebridge.gpg] https://repo.homebridge.io stable main" > /etc/apt/sources.list.d/homebridge.list \
