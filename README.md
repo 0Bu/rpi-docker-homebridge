@@ -2,6 +2,6 @@
 
 ## Test run
 ```
-docker run -it --rm -p 8581:8581 ghcr.io/0bu/homebridge:<version>
+docker run -it --rm -p 8581:8581 ghcr.io/0bu/homebridge:1.1.3
 ```
 

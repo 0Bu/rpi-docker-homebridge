@@ -5,5 +5,12 @@
   "automerge": true,
   "bumpVersion": "patch",
   "ignoreTests": true,
-  "repositories": ["0Bu/rpi-docker-homebridge"]
+  "repositories": ["0Bu/rpi-docker-homebridge"],
+  "customManagers": [
+    {
+      "fileMatch": ["^README.md$"],
+      "matchStrings": ["^docker run -it --rm -p 8581:8581 (?<depName>.*?):(?<currentValue>.*?)"],
+      "datasourceTemplate": "docker"
+    }
+  ]
 }
