@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 LABEL org.opencontainers.image.source="https://github.com/0Bu/rpi-docker-homebridge"
 LABEL org.opencontainers.image.description="homebridge.io docker image for raspberry pi"
