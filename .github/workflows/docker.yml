@@ -15,6 +15,6 @@ jobs:
     - name: Update Github Container Registry
       run: |
         set -x
-        TAG=$(curl -sL https://api.github.com/repos/homebridge/homebridge-apt-pkg/releases/latest | grep -Po '"tag_name": "\K.*?(?=")')
+        TAG=$(curl -sL https://api.github.com/repos/homebridge/homebridge-apt-pkg/releases/latest | grep -Po '"tag_name": "\K.*?(?=")' | grep -Po '\d.+')
         docker buildx create --use 
         docker buildx build --push --platform linux/arm64 --build-arg HOMEBRIDGE_APT_PKG_VERSION=$TAG -t ghcr.io/0bu/homebridge:$TAG .
