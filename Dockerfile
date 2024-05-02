@@ -11,12 +11,11 @@ ENV UIX_CAN_SHUTDOWN_RESTART_HOST=1
 RUN apt-get update && apt-get install -y curl gpg \
     && curl -sSfL https://repo.homebridge.io/KEY.gpg | gpg --dearmor > /usr/share/keyrings/homebridge.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/homebridge.gpg] https://repo.homebridge.io stable main" > /etc/apt/sources.list.d/homebridge.list \
-    && apt-get update && apt-get install -y homebridge=${HOMEBRIDGE_APT_PKG_VERSION} \
+    && apt-get update && apt-get install -y homebridge=$(echo "${HOMEBRIDGE_APT_PKG_VERSION}" | grep -Po '\d.+' ) \
     && apt-get clean && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* 
 
 EXPOSE 8581/tcp
 VOLUME /var/lib/homebridge
-VOLUME /opt/homebridge
 WORKDIR /var/lib/homebridge
 ENTRYPOINT ["/opt/homebridge/start.sh"]
 CMD ["--allow-root"]
