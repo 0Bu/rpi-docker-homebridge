@@ -1,5 +1,7 @@
 name: docker
 on:
+  schedule:
+    - cron: '0 * * * *'
   push:
     branches: ["main"]
 jobs:
@@ -7,14 +9,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - id: latest_tag
+      name: latest_tag
+      run: |
+         VERSION=$(curl -sL https://api.github.com/repos/homebridge/homebridge-apt-pkg/releases/latest | jq -r '.tag_name' | grep -Po '\d.+')
+         echo "version=$VERSION" >> $GITHUB_OUTPUT
+    - id: current_tag
+      name: current_tag
+      run: |
+         VERSION=$(curl -sL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                        https://api.github.com/user/packages/container/homebridge/versions | \
+                        jq  -r 'max_by(.created_at) | .metadata.container.tags[0]')
+         echo "version=$VERSION" >> $GITHUB_OUTPUT
     - uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Update Github Container Registry
+    - if: ${{ steps.current_tag.outputs.version != steps.latest_tag.outputs.version }}
+      name: docker_build
       run: |
         set -x
-        TAG=$(curl -sL https://api.github.com/repos/homebridge/homebridge-apt-pkg/releases/latest | grep -Po '"tag_name": "\K.*?(?=")' | grep -Po '\d.+')
         docker buildx create --use 
-        docker buildx build --push --platform linux/arm64 --build-arg HOMEBRIDGE_APT_PKG_VERSION=$TAG -t ghcr.io/0bu/homebridge:$TAG .
+        docker buildx build --push --platform linux/arm64 --build-arg HOMEBRIDGE_APT_PKG_VERSION=${{ steps.latest_tag.outputs.version }} -t ghcr.io/0bu/homebridge:${{ steps.latest_tag.outputs.version }} .
