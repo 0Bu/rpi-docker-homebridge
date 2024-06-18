@@ -1,4 +1,5 @@
 # [Homebridge](https://homebridge.io/) Docker Image for Raspberry Pi
+[homebridge/homebridge-apt-pkg](https://github.com/homebridge/homebridge-apt-pkg)
 
 ## Test run
 ```
