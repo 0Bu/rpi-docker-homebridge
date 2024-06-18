@@ -34,4 +34,6 @@ jobs:
       run: |
         set -x
         docker buildx create --use 
-        docker buildx build --push --platform linux/arm64 --build-arg HOMEBRIDGE_APT_PKG_VERSION=${{ steps.latest_tag.outputs.version }} -t ghcr.io/0bu/homebridge:${{ steps.latest_tag.outputs.version }} .
+        docker buildx build --push --platform linux/arm64 \
+          --build-arg HOMEBRIDGE_APT_PKG_VERSION=${{ steps.latest_tag.outputs.version }} \
+          -t ghcr.io/0bu/homebridge:${{ steps.latest_tag.outputs.version }} .
