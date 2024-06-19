@@ -1,7 +1,5 @@
 name: docker
 on:
-  schedule:
-    - cron: '0 0 * * *'
   push:
     branches: ["main"]
 jobs:
@@ -24,13 +22,14 @@ jobs:
          echo "current: $VERSION"
          echo "version=$VERSION" >> $GITHUB_OUTPUT
     - if: ${{ steps.current_tag.outputs.version != steps.latest_tag.outputs.version }}
+      name: login ghcr.io
       uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     - if: ${{ steps.current_tag.outputs.version != steps.latest_tag.outputs.version }}
-      name: docker_build
+      name: update container registry
       run: |
         set -x
         docker buildx create --use 
