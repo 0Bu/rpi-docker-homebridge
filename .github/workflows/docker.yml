@@ -20,7 +20,7 @@ jobs:
       run: |
          VERSION=$(curl -sL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
                         https://api.github.com/user/packages/container/homebridge/versions | \
-                        jq -r '[.[] | select(.metadata.container.tags[0])] | max_by(.created_at) | .metadata.container.tags[0]'
+                        jq -r '[.[] | select(.metadata.container.tags[0])] | max_by(.created_at) | .metadata.container.tags[0]')
          echo "current: $VERSION"
          echo "version=$VERSION" >> $GITHUB_OUTPUT
     - if: ${{ steps.current_tag.outputs.version != steps.latest_tag.outputs.version }}
