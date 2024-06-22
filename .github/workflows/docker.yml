@@ -1,40 +1,40 @@
 name: docker
+
 on:
   schedule:
-     - cron: '0 * * * *'
+    - cron: '0 * * * *'
   push:
     branches: ["main"]
+
 jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - id: latest_tag
-      name: latest_tag
+
+    - id: tags
+      name: Fetch Tags
       run: |
-         VERSION=$(curl -sL https://api.github.com/repos/homebridge/homebridge-apt-pkg/releases/latest | jq -r '.tag_name' | grep -Po '\d.+')
-         echo "latest: $VERSION"
-         echo "version=$VERSION" >> $GITHUB_OUTPUT
-    - id: current_tag
-      name: current_tag
-      run: |
-         VERSION=$(curl -sL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                        https://api.github.com/user/packages/container/homebridge/versions | \
-                        jq -r '[.[] | select(.metadata.container.tags[0])] | max_by(.created_at) | .metadata.container.tags[0]')
-         echo "current: $VERSION"
-         echo "version=$VERSION" >> $GITHUB_OUTPUT
-    - if: ${{ steps.current_tag.outputs.version != steps.latest_tag.outputs.version }}
-      name: login ghcr.io
+        LATEST_TAG=$(curl -sL https://api.github.com/repos/homebridge/homebridge-apt-pkg/releases/latest | jq -r '.tag_name' | grep -Po '\d.+')
+        echo "latest: $LATEST_TAG"
+        CURRENT_TAG=$(curl -sL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/user/packages/container/homebridge/versions | jq -r '[.[] | select(.metadata.container.tags[0])] | max_by(.created_at) | .metadata.container.tags[0]')
+        echo "current: $CURRENT_TAG"
+        echo "latest_tag=$LATEST_TAG" >> $GITHUB_ENV
+        echo "current_tag=$CURRENT_TAG" >> $GITHUB_ENV
+
+    - if: ${{ env.current_tag != env.latest_tag }}
+      name: Login to GitHub Container Registry
       uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    - if: ${{ steps.current_tag.outputs.version != steps.latest_tag.outputs.version }}
-      name: update container registry
+
+    - if: ${{ env.current_tag != env.latest_tag }}
+      name: Update Container Registry
       run: |
-        set -x
         docker buildx create --use 
         docker buildx build --push --platform linux/arm64 \
-          --build-arg HOMEBRIDGE_APT_PKG_VERSION=${{ steps.latest_tag.outputs.version }} \
-          -t ghcr.io/0bu/homebridge:${{ steps.latest_tag.outputs.version }} .
+          --build-arg HOMEBRIDGE_APT_PKG_VERSION=${{ env.latest_tag }} \
+          -t ghcr.io/0bu/homebridge:${{ env.latest_tag }} .
+
