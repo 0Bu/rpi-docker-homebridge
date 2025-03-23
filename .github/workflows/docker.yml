@@ -34,7 +34,7 @@ jobs:
       name: Update Container Registry
       run: |
         docker buildx create --use 
-        docker buildx build --push --platform linux/arm64 \
+        docker buildx build --push --platform linux/arm/v7,linux/arm64 \
           --build-arg HOMEBRIDGE_APT_PKG_VERSION=${{ env.latest_tag }} \
           -t ghcr.io/0bu/homebridge:${{ env.latest_tag }} .
 
