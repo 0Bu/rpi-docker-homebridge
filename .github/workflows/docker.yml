@@ -21,7 +21,6 @@ jobs:
         echo "current: $CURRENT_TAG"
         echo "latest_tag=$LATEST_TAG" >> $GITHUB_ENV
         echo "current_tag=$CURRENT_TAG" >> $GITHUB_ENV
-
     - if: ${{ env.current_tag != env.latest_tag }}
       name: Login to GitHub Container Registry
       uses: docker/login-action@v3
@@ -29,12 +28,11 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-
     - if: ${{ env.current_tag != env.latest_tag }}
       name: Update Container Registry
       run: |
         docker buildx create --use 
         docker buildx build --push --platform linux/arm/v7,linux/arm64 \
           --build-arg HOMEBRIDGE_APT_PKG_VERSION=${{ env.latest_tag }} \
-          -t ghcr.io/0bu/homebridge:${{ env.latest_tag }} .
+          -t ghcr.io/0bu/homebridge:${{ env.latest_tag }} -t ghcr.io/0bu/homebridge:latest .
 
