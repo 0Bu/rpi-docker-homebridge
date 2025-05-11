@@ -13,5 +13,5 @@ jobs:
         configurationFile: .github/renovate.json
         token: ${{ secrets.RENOVATE_TOKEN }}
       env:
-          RENOVATE_PLATFORM: 'github'
-          RENOVATE_REPOSITORIES: '0Bu/rpi-docker-homebridge'
+        RENOVATE_PLATFORM: github
+        RENOVATE_REPOSITORIES: ${{ github.repository }}
