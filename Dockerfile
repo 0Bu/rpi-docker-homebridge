@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:24.04@sha256:66460d557b25769b102175144d538d88219c077c678a49af4afca6fbfc1b5252
 
 LABEL org.opencontainers.image.source="https://github.com/0Bu/rpi-docker-homebridge"
 LABEL org.opencontainers.image.description="homebridge.io docker image for raspberry pi"
