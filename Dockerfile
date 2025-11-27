@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.description="homebridge.io docker image for raspb
 LABEL org.opencontainers.image.licenses="MIT"
 
 # renovate: datasource=github-releases depName=homebridge/homebridge-apt-pkg
-ARG HOMEBRIDGE_APT_PKG_VERSION="v1.8.1"
+ARG HOMEBRIDGE_APT_PKG_VERSION="v1.8.2"
 ENV UIX_CAN_SHUTDOWN_RESTART_HOST=1
 
 RUN apt-get update && apt-get install -y curl gpg \
